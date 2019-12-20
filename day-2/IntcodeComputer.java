@@ -58,10 +58,32 @@ public class IntcodeComputer {
     
     public static void main(String[] args) throws IOException {
         IntcodeComputer computer = new IntcodeComputer("day-2-input.txt");
-        
         int[] myArray = computer.convertInputToArray(computer.getReader().readLine());
-        myArray = computer.executeIntcode(myArray);
-        System.out.println(Arrays.toString(myArray));
+        
+        int[] arrayPart1 = myArray.clone();
+        arrayPart1 = computer.executeIntcode(arrayPart1);
+        System.out.println(Arrays.toString(arrayPart1));
+        
+        System.out.println(computer.findIntcodeNounVerb(myArray, 19690720));
+    }
+    
+    public int findIntcodeNounVerb(int[] intcodeArr, int targetValue) {
+        
+        for (int i = 0; i <= 99; i++) {
+            for (int j = 0; j <= 99; j++) {
+                int[] intcodeCopy = intcodeArr.clone();
+                intcodeCopy[1] = i;
+                intcodeCopy[2] = j;
+            
+                intcodeCopy = executeIntcode(intcodeCopy);
+                
+                if (intcodeCopy[0] == targetValue) {
+                    return 100 * i + j;
+                }
+            }
+        }
+        
+        return -1;
     }
 
 }
